@@ -1,0 +1,103 @@
+text,severity_score,risk,doctor,advice
+fever,1,LOW,Self Care,Take rest and drink plenty of fluids
+mild fever,1,LOW,Self Care,Rest and monitor temperature
+headache,1,LOW,Self Care,Take rest and avoid stress
+head pain,1,LOW,Self Care,Apply balm and take rest
+sir dard,1,LOW,Self Care,Take rest and light pain relief
+cold,1,LOW,Self Care,Steam inhalation and warm fluids
+runny nose,1,LOW,Self Care,Rest and stay hydrated
+sneezing,1,LOW,Self Care,Avoid cold exposure
+mild cough,1,LOW,Self Care,Drink warm fluids
+dry cough,1,LOW,Self Care,Use warm water gargle
+sore throat,1,LOW,Self Care,Gargle with warm salt water
+body pain,1,LOW,Self Care,Take rest and light stretching
+body ache,1,LOW,Self Care,Apply warm compress
+tiredness,1,LOW,Self Care,Take proper rest
+weakness,1,LOW,Self Care,Healthy diet and hydration
+gas problem,1,LOW,Self Care,Avoid spicy food
+acidity,1,LOW,Self Care,Drink cold milk and avoid oily food
+stomach gas,1,LOW,Self Care,Light walking after meals
+mild stomach pain,1,LOW,Self Care,Take light food
+constipation,1,LOW,Self Care,Increase fiber intake
+mild diarrhea,2,LOW,Self Care,Drink ORS and fluids
+loss of appetite,1,LOW,Self Care,Eat small meals
+muscle pain,1,LOW,Self Care,Apply warm compress
+back pain,1,LOW,Self Care,Avoid heavy lifting
+neck pain,1,LOW,Self Care,Neck stretching exercises
+joint pain,1,LOW,Self Care,Light movement and rest
+eye pain,1,LOW,Self Care,Rest eyes and reduce screen time
+burning eyes,1,LOW,Self Care,Wash eyes with clean water
+itching,1,LOW,Self Care,Keep skin clean and dry
+skin itching,1,LOW,Self Care,Apply soothing lotion
+small rash,1,LOW,Self Care,Keep area clean
+mild allergy,1,LOW,Self Care,Avoid allergens
+stress,1,LOW,Self Care,Practice relaxation techniques
+anxiety,1,LOW,Self Care,Deep breathing exercises
+sleep problem,1,LOW,Self Care,Maintain sleep routine
+insomnia,1,LOW,Self Care,Avoid screens before sleep
+high fever,4,MEDIUM,General Physician,Consult doctor within 24-48 hours
+fever for two days,4,MEDIUM,General Physician,Medical checkup recommended
+fever and headache,4,MEDIUM,General Physician,Consult doctor if persists
+fever with body pain,4,MEDIUM,General Physician,Blood test may be required
+persistent cough,4,MEDIUM,General Physician,Consult doctor
+cough with mucus,4,MEDIUM,General Physician,May need medication
+chest congestion,4,MEDIUM,General Physician,Steam inhalation and consult doctor
+breathing problem,5,MEDIUM,General Physician,Consult doctor immediately
+shortness of breath,5,MEDIUM,General Physician,Medical evaluation needed
+vomiting,4,MEDIUM,General Physician,Avoid dehydration
+continuous vomiting,5,MEDIUM,General Physician,Consult doctor urgently
+vomiting and weakness,5,MEDIUM,General Physician,IV fluids may be needed
+nausea,4,MEDIUM,General Physician,Light diet advised
+stomach pain,4,MEDIUM,General Physician,Medical check recommended
+severe stomach pain,5,MEDIUM,General Physician,Immediate medical evaluation
+diarrhea,4,MEDIUM,General Physician,ORS and medication
+loose motion,4,MEDIUM,General Physician,Hydration required
+blood pressure high,5,MEDIUM,General Physician,Regular BP monitoring needed
+bp problem,5,MEDIUM,General Physician,Doctor consultation required
+dizziness,4,MEDIUM,General Physician,Avoid sudden movement
+feeling faint,5,MEDIUM,General Physician,Consult doctor
+eye infection,4,MEDIUM,General Physician,Antibiotic drops required
+ear pain,4,MEDIUM,General Physician,Medical evaluation advised
+ear infection,4,MEDIUM,General Physician,Antibiotics may be needed
+tooth pain,4,MEDIUM,Dentist,Dental consultation advised
+toothache,4,MEDIUM,Dentist,Pain relief and checkup
+skin infection,4,MEDIUM,General Physician,Medication required
+rashes spreading,4,MEDIUM,General Physician,Consult dermatologist
+swelling,4,MEDIUM,General Physician,Check underlying cause
+leg swelling,5,MEDIUM,General Physician,Medical examination needed
+hand swelling,4,MEDIUM,General Physician,Consult doctor
+burning urination,4,MEDIUM,General Physician,Urine test advised
+urine infection,4,MEDIUM,General Physician,Antibiotics required
+frequent urination,4,MEDIUM,General Physician,Diabetes screening advised
+chest pain,9,HIGH,Emergency / Cardiologist,Go to emergency immediately
+severe chest pain,10,HIGH,Emergency / Cardiologist,Call emergency services now
+chest pain and sweating,10,HIGH,Emergency / Cardiologist,Immediate hospital visit
+chest tightness,9,HIGH,Emergency / Cardiologist,Seek urgent care
+heart pain,10,HIGH,Emergency / Cardiologist,Emergency cardiac evaluation
+breathing difficulty,9,HIGH,Emergency,Immediate medical attention needed
+unable to breathe,10,HIGH,Emergency,Call ambulance immediately
+severe shortness of breath,10,HIGH,Emergency,Emergency oxygen support required
+fainting,9,HIGH,Emergency,Hospital evaluation required
+loss of consciousness,10,HIGH,Emergency,Emergency medical help needed
+unconscious,10,HIGH,Emergency,Call emergency services
+seizure,10,HIGH,Emergency,Immediate hospital care
+fits,10,HIGH,Emergency,Emergency neurological care
+paralysis,10,HIGH,Emergency,Immediate hospital treatment
+one side weakness,10,HIGH,Emergency,Possible stroke - act fast
+stroke symptoms,10,HIGH,Emergency,Immediate stroke care required
+high fever with chills,8,HIGH,Emergency,Possible infection - urgent care
+high fever and vomiting,8,HIGH,Emergency,Immediate medical evaluation
+blood vomiting,10,HIGH,Emergency,Life-threatening - go to hospital
+vomiting blood,10,HIGH,Emergency,Emergency treatment needed
+blood in stool,9,HIGH,Emergency,Immediate medical check
+severe bleeding,10,HIGH,Emergency,Control bleeding and seek emergency
+accident injury,9,HIGH,Emergency,Emergency trauma care required
+head injury,9,HIGH,Emergency,CT scan may be required
+burn injury,9,HIGH,Emergency,Burn treatment required
+snake bite,10,HIGH,Emergency,Anti-venom required immediately
+dog bite,8,HIGH,Emergency,Anti-rabies treatment needed
+severe allergic reaction,10,HIGH,Emergency,Emergency allergy treatment
+anaphylaxis,10,HIGH,Emergency,Immediate adrenaline injection needed
+low oxygen,10,HIGH,Emergency,Oxygen therapy required
+blue lips,10,HIGH,Emergency,Severe oxygen deficiency
+severe dehydration,9,HIGH,Emergency,IV fluids urgently required

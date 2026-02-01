@@ -10,20 +10,76 @@ import pandas as pd
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-# ================= ML LOAD =================
+# ================= PATH =================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# ================= ML LOAD =================
 model = joblib.load(os.path.join(BASE_DIR, "risk_model.pkl"))
 vectorizer = joblib.load(os.path.join(BASE_DIR, "vectorizer.pkl"))
 print("✅ ML model loaded")
 
-# ================= DATA =================
+# ================= TRAINING DATA =================
 training_data = pd.read_csv(
     os.path.join(BASE_DIR, "training_data.csv"),
     encoding="latin1"
 )
-
 training_data["text"] = training_data["text"].str.lower().str.strip()
+training_data["doctor"] = training_data["doctor"].str.lower().str.strip()
+
+# ================= DOCTORS DATA =================
+doctors_data = pd.read_csv(
+    os.path.join(BASE_DIR, "doctors_ahmedabad.csv"),
+    encoding="latin1"
+)
+doctors_data["specialization"] = doctors_data["specialization"].str.lower().str.strip()
+
+# ================= SPECIALIZATION MAP =================
+SPECIALIZATION_MAP = {
+    "general physician": "general physician",
+    "self care": "general physician",
+    "cardiologist": "cardiologist",
+    "emergency / cardiologist": "cardiologist",
+    "emergency": "emergency",
+    "neurologist": "neurologist",
+    "orthopedic": "orthopedic",
+    "gynecologist": "gynecologist",
+    "pulmonologist": "pulmonologist",
+    "gastroenterologist": "gastroenterologist",
+    "dermatologist": "dermatologist",
+    "ent": "ent",
+    "ent specialist": "ent",
+    "pediatrician": "pediatrician",
+    "psychiatrist": "psychiatrist",
+    "nephrologist": "nephrologist",
+    "dentist": "dentist"
+}
+
+# ================= DOCTOR MATCH HELPER =================
+def get_doctors_by_specialization(doctor_text):
+    doctor_text = doctor_text.lower().strip()
+
+    specialization = "general physician"
+    for key, value in SPECIALIZATION_MAP.items():
+        if key in doctor_text:
+            specialization = value
+            break
+
+    matched = doctors_data[
+        doctors_data["specialization"].str.contains(specialization, na=False)
+    ]
+
+    doctors = []
+    for _, row in matched.head(5).iterrows():
+        doctors.append({
+            "name": row["doctor_name"],
+            "hospital": row["hospital"],
+            "area": row["area"],
+            "contact": str(row["contact"]),
+            "experience": int(row["experience_years"]),
+            "specialization": row["specialization"].title()
+        })
+
+    return doctors
 
 # ================= MYSQL =================
 app.config["MYSQL_HOST"] = "127.0.0.1"
@@ -37,7 +93,7 @@ mysql = MySQL(app)
 # ================= HOME =================
 @app.route("/")
 def home():
-    return "AI Health Backend Running (ML Mode)"
+    return "AI Health Backend Running"
 
 # ================= SIGNUP =================
 @app.route("/signup", methods=["POST"])
@@ -53,7 +109,7 @@ def signup():
         return jsonify({"message": "All fields required"}), 400
 
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * FROM users WHERE email=%s", (email,))
+    cursor.execute("SELECT id FROM users WHERE email=%s", (email,))
     if cursor.fetchone():
         cursor.close()
         return jsonify({"message": "Email already exists"}), 400
@@ -103,57 +159,53 @@ def triage():
     user_id = data.get("user_id")
 
     if not text:
+        return jsonify({"mode": "chat", "reply": "Please enter symptoms."})
+
+    # 🔍 EXACT MATCH ONLY
+    matches = training_data[training_data["text"] == text]
+
+    if matches.empty:
         return jsonify({
             "mode": "chat",
-            "reply": "Please enter symptoms."
+            "reply": "I could not find this symptom in my database."
         })
 
-    # 🔍 EXACT MATCH ONLY (NO EXTRA SYMPTOMS)
-    matches = training_data[
-        training_data["text"] == text
-    ]
+    row = matches.iloc[0]
 
-    # ✅ MEDICAL MODE
-    if not matches.empty:
-        row = matches.iloc[0]
+    recommended_doctors = get_doctors_by_specialization(row["doctor"])
 
-        response = {
-            "mode": "medical",
-            "symptoms": [row["text"]],   # ✅ ONLY ENTERED SYMPTOM
-            "risk": row["risk"],
-            "doctor": row["doctor"],
-            "advice": row["advice"],
-            "severity": int(row["severity_score"])
-        }
+    response = {
+        "mode": "medical",
+        "symptoms": [row["text"]],
+        "risk": row["risk"],
+        "doctor": row["doctor"].title(),
+        "advice": row["advice"],
+        "severity": int(row["severity_score"]),
+        "recommended_doctors": recommended_doctors
+    }
 
-        # 📝 SAVE HISTORY
-        if user_id:
-            cursor = mysql.connection.cursor()
-            cursor.execute(
-                """
-                INSERT INTO history
-                (user_id, symptoms, severity, risk, doctor, advice)
-                VALUES (%s,%s,%s,%s,%s,%s)
-                """,
-                (
-                    user_id,
-                    row["text"],
-                    row["severity_score"],
-                    row["risk"],
-                    row["doctor"],
-                    row["advice"]
-                )
+    # ================= SAVE HISTORY =================
+    if user_id:
+        cursor = mysql.connection.cursor()
+        cursor.execute(
+            """
+            INSERT INTO history
+            (user_id, symptoms, severity, risk, doctor, advice)
+            VALUES (%s,%s,%s,%s,%s,%s)
+            """,
+            (
+                user_id,
+                row["text"],
+                row["severity_score"],
+                row["risk"],
+                row["doctor"],
+                row["advice"]
             )
-            mysql.connection.commit()
-            cursor.close()
+        )
+        mysql.connection.commit()
+        cursor.close()
 
-        return jsonify(response)
-
-    # 🤖 FALLBACK CHAT
-    return jsonify({
-        "mode": "chat",
-        "reply": "I could not find this symptom in my database. Please consult a doctor if symptoms persist."
-    })
+    return jsonify(response)
 
 # ================= HISTORY =================
 @app.route("/history/<int:user_id>")
@@ -161,7 +213,7 @@ def history(user_id):
     cursor = mysql.connection.cursor()
     cursor.execute(
         """
-        SELECT symptoms, risk, doctor, advice, created_at
+        SELECT symptoms, severity, risk, doctor, advice, created_at
         FROM history
         WHERE user_id=%s
         ORDER BY created_at DESC

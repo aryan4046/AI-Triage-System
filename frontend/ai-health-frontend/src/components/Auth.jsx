@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../styles/auth.css";
+import API_BASE_URL from "../config/api";
 
 export default function Auth({ onSuccess }) {
   const [email, setEmail] = useState("");
@@ -56,8 +57,8 @@ export default function Auth({ onSuccess }) {
       return setError("Password must be at least 6 characters");
 
     const url = isSignup
-      ? "http://127.0.0.1:5000/signup"
-      : "http://127.0.0.1:5000/login";
+      ? `${API_BASE_URL}/signup`
+      : `${API_BASE_URL}/login`;
 
     try {
       const res = await fetch(url, {
@@ -78,6 +79,7 @@ export default function Auth({ onSuccess }) {
         name: data.name || name,
         email: data.email || email,
         contact: data.contact || contact,
+        user_id: data.user_id
       });
 
     } catch (err) {
@@ -143,7 +145,7 @@ export default function Auth({ onSuccess }) {
               style={{ paddingRight: "44px" }}
             />
 
-            {/* 👁️ / 🙈 ICON — only when text exists */}
+            {/* 👁️ / 🙈 ICON */}
             {password.length > 0 && (
               <span
                 onClick={() => setShowPassword(!showPassword)}
@@ -162,10 +164,10 @@ export default function Auth({ onSuccess }) {
             )}
           </div>
 
-          {/* 🔴🟠🟢 THREE DOT PASSWORD STRENGTH */}
+          {/* 🔴🟠🟢 PASSWORD STRENGTH */}
           {passwordStrength && (
             <div className="pwd-strength-inline">
-              <span className={`on weak`}></span>
+              <span className="on weak"></span>
               <span
                 className={
                   passwordStrength === "medium" || passwordStrength === "strong"

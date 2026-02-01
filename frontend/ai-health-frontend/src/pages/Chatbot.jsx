@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import "../styles/chat.css";
 import HeartbeatLine from "../components/HeartbeatLine";
+import API_BASE_URL from "../config/api";
 
 export default function Chatbot({
   patientName,
   patientEmail,
-  patientContact
+  patientContact,
+  userId // ✅ REQUIRED FOR HISTORY
 }) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([
@@ -21,20 +23,20 @@ export default function Chatbot({
   const [doctor, setDoctor] = useState("");
   const [doctorAdvice, setDoctorAdvice] = useState("");
   const [symptoms, setSymptoms] = useState([]);
-  const [confidence, setConfidence] = useState("");
+  const [recommendedDoctors, setRecommendedDoctors] = useState([]);
 
   const chatEndRef = useRef(null);
 
-  /* ✅ AUTO SCROLL – CORRECT PLACE */
+  /* AUTO SCROLL */
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
-  /* ================= SEND MESSAGE ================= */
+  /* SEND MESSAGE */
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    const userText = input;
+    const userText = input.trim();
 
     // show user message
     setMessages(prev => [...prev, { role: "user", text: userText }]);
@@ -46,49 +48,56 @@ export default function Chatbot({
     setDoctor("");
     setDoctorAdvice("");
     setSymptoms([]);
-    setConfidence("");
+    setRecommendedDoctors([]);
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/triage", {
+      // 🔎 DEBUG (REMOVE LATER)
+      console.log("Sending user_id:", userId);
+
+      const res = await fetch(`${API_BASE_URL}/triage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userText })
+        body: JSON.stringify({
+          message: userText,
+          user_id: userId || null // ✅ SAFE
+        })
       });
 
-      if (!res.ok) throw new Error("Server error");
+      if (!res.ok) {
+        throw new Error("Server error");
+      }
 
       const data = await res.json();
 
-      /* 🩺 MEDICAL MODE */
+      /* MEDICAL MODE */
       if (data.mode === "medical") {
-        setDoctor(data.doctor);
-        setDoctorAdvice(data.advice);
         setSeverity(data.risk?.toLowerCase() || null);
+        setDoctor(data.doctor || "");
+        setDoctorAdvice(data.advice || "");
         setSymptoms(data.symptoms || []);
-        setConfidence(data.confidence || "");
+        setRecommendedDoctors(data.recommended_doctors || []);
 
-        // show advice as chat response
         setMessages(prev => [
           ...prev,
           { role: "ai", text: data.advice }
         ]);
 
-        // 🔔 alert for HIGH risk
+        // 🔔 HIGH risk alert
         if (data.risk?.toLowerCase() === "high") {
           const alertSound = new Audio("/sounds/audio.mp3");
           alertSound.play().catch(() => {});
         }
       }
-
-      /* 🤖 NORMAL CHAT MODE */
+      /* CHAT MODE */
       else {
         setMessages(prev => [
           ...prev,
-          { role: "ai", text: data.reply }
+          { role: "ai", text: data.reply || "Please consult a doctor." }
         ]);
       }
 
     } catch (error) {
+      console.error("Chat error:", error);
       setMessages(prev => [
         ...prev,
         { role: "ai", text: "❌ Unable to contact server. Please try again." }
@@ -98,7 +107,7 @@ export default function Chatbot({
     }
   };
 
-  /* ================= CLEAR CHAT ================= */
+  /* CLEAR */
   const clearChat = () => {
     setMessages([
       {
@@ -110,32 +119,17 @@ export default function Chatbot({
     setDoctor("");
     setDoctorAdvice("");
     setSymptoms([]);
-    setConfidence("");
+    setRecommendedDoctors([]);
     setInput("");
   };
 
-  /* ================= UI ================= */
   return (
     <div className="dashboard">
 
       {/* LEFT PANEL */}
       <div className="dashboard-left">
         <h2>AI Health Console</h2>
-
-        {patientName && (
-          <p>Welcome, <b>{patientName}</b> 👋</p>
-        )}
-
         <p>Status: <span className="online">Online</span></p>
-
-        <div className="tips">
-          <h4>How to use</h4>
-          <ul>
-            <li>Describe symptoms clearly</li>
-            <li>Mention duration & pain level</li>
-            <li>AI will assess urgency</li>
-          </ul>
-        </div>
 
         {/* PATIENT PROFILE */}
         <div className="patient-profile">
@@ -144,12 +138,33 @@ export default function Chatbot({
           <p><b>Email:</b> {patientEmail || "—"}</p>
           <p><b>Contact:</b> {patientContact || "—"}</p>
         </div>
+
+        {/* DOCTOR LIST */}
+        {recommendedDoctors.length > 0 && (
+          <div className="doctor-list-box">
+            <h4>🏥 Recommended Doctors</h4>
+
+            <div className="doctor-scroll">
+              {recommendedDoctors.map((doc, index) => (
+                <div key={index} className="doctor-item">
+                  <p className="doc-name">👨‍⚕️ {doc.name}</p>
+                  <p className="doc-specialization">
+                    🩺 <b>{doc.specialization}</b>
+                  </p>
+                  <p>🏥 {doc.hospital}</p>
+                  <p>📍 {doc.area}</p>
+                  <p>📞 {doc.contact}</p>
+                  <p>🧠 {doc.experience} yrs experience</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* RIGHT PANEL */}
       <div className="dashboard-right">
 
-        {/* HEARTBEAT */}
         <HeartbeatLine severity={severity} />
 
         {/* CHAT AREA */}
@@ -159,11 +174,7 @@ export default function Chatbot({
               {m.text}
             </div>
           ))}
-
-          {loading && (
-            <div className="chat-bubble ai">Analyzing symptoms…</div>
-          )}
-
+          {loading && <div className="chat-bubble ai">Analyzing…</div>}
           <div ref={chatEndRef}></div>
         </div>
 
@@ -178,19 +189,9 @@ export default function Chatbot({
         {severity && (
           <div className={`doctor-card ${severity}`}>
             <h4>🩺 Doctor Recommendation</h4>
-
-            {symptoms.length > 0 && (
-              <p><b>Detected Symptoms:</b> {symptoms.join(", ")}</p>
-            )}
-
+            <p><b>Detected Symptoms:</b> {symptoms.join(", ")}</p>
             <p><b>Specialist:</b> {doctor}</p>
             <p><b>Advice:</b> {doctorAdvice}</p>
-
-            {confidence && (
-              <p className="confidence-text">
-                <b>Confidence:</b> {confidence}%
-              </p>
-            )}
 
             {severity === "high" && (
               <p className="emergency-text">

@@ -81,7 +81,7 @@ export default function Auth({ onSuccess }) {
         contact: data.contact || contact,
         user_id: data.user_id
       });
-
+      
     } catch (err) {
       setError(err.message);
     }

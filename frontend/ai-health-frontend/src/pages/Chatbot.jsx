@@ -7,7 +7,7 @@ export default function Chatbot({
   patientName,
   patientEmail,
   patientContact,
-  userId // ✅ REQUIRED FOR HISTORY
+  userId 
 }) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([
@@ -79,7 +79,7 @@ export default function Chatbot({
 
         setMessages(prev => [
           ...prev,
-          { role: "ai", text: data.advice }
+          { role: "ai", text: data.advice },
         ]);
 
         // 🔔 HIGH risk alert

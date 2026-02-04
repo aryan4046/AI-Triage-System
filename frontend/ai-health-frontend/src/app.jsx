@@ -5,26 +5,16 @@ import Chatbot from "./pages/Chatbot";
 function App() {
   const [user, setUser] = useState(null);
 
-  const handleAuthSuccess = (userData) => {
-    // 🔥 VERY IMPORTANT
-    setUser({
-      name: userData.name,
-      email: userData.email,
-      contact: userData.contact,
-      userId: userData.userId
-    });
-  };
-
   return (
     <>
       {!user ? (
-        <Auth onSuccess={handleAuthSuccess} />
+        <Auth onSuccess={setUser} />
       ) : (
         <Chatbot
           patientName={user.name}
           patientEmail={user.email}
           patientContact={user.contact}
-          userId={user.userId}
+          userId={user.user_id}   // 🔥 VERY IMPORTANT
         />
       )}
     </>

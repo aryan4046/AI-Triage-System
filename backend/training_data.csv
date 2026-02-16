@@ -1,0 +1,89 @@
+text,severity_score,risk,doctor,advice
+fever,1,LOW,General Physician,Take rest and drink plenty of fluids
+high fever,4,MEDIUM,General Physician,Consult doctor within 24-48 hours
+feeling hot,1,LOW,General Physician,Rest and hydrate well
+body temperature high,1,LOW,General Physician,Drink fluids and rest
+fever for two days,4,MEDIUM,General Physician,Medical checkup recommended
+
+headache,1,LOW,General Physician,Take rest and avoid stress
+head pain,1,LOW,General Physician,Apply balm and rest
+heavy head,1,LOW,General Physician,Rest and avoid screen time
+migraine,4,MEDIUM,Neurologist,Consult neurologist if persists
+severe headache,6,MEDIUM,Neurologist,Medical evaluation advised
+
+cold,1,LOW,ENT Specialist,Steam inhalation and warm fluids
+runny nose,1,LOW,ENT Specialist,Stay warm and hydrated
+blocked nose,1,LOW,ENT Specialist,Steam inhalation recommended
+sneezing,1,LOW,ENT Specialist,Avoid cold exposure
+sore throat,1,LOW,ENT Specialist,Gargle with warm salt water
+throat pain,1,LOW,ENT Specialist,Warm fluids and rest
+voice problem,4,MEDIUM,ENT Specialist,ENT consultation advised
+
+cough,1,LOW,General Physician,Warm fluids and rest
+dry cough,1,LOW,General Physician,Gargle with warm water
+wet cough,4,MEDIUM,General Physician,May need medication
+persistent cough,5,MEDIUM,Pulmonologist,Pulmonary evaluation advised
+chest congestion,4,MEDIUM,Pulmonologist,Steam inhalation and consult doctor
+
+breathing problem,6,MEDIUM,Pulmonologist,Consult doctor immediately
+shortness of breath,7,MEDIUM,Pulmonologist,Medical evaluation needed
+difficulty breathing,9,HIGH,Emergency,Immediate medical attention required
+low oxygen,10,HIGH,Emergency,Oxygen therapy required
+oxygen level low,10,HIGH,Emergency,Emergency oxygen support required
+
+chest pain,9,HIGH,Emergency / Cardiologist,Go to emergency immediately
+heart pain,10,HIGH,Emergency / Cardiologist,Emergency cardiac evaluation
+chest tightness,9,HIGH,Emergency / Cardiologist,Seek urgent care
+fast heartbeat,6,MEDIUM,Cardiologist,Heart checkup recommended
+heart beating fast,6,MEDIUM,Cardiologist,Consult cardiologist
+
+body pain,1,LOW,General Physician,Take rest and light stretching
+body ache,1,LOW,General Physician,Apply warm compress
+muscle pain,1,LOW,Orthopedic,Rest and mild exercise
+joint pain,4,MEDIUM,Orthopedic,Orthopedic consultation advised
+back pain,4,MEDIUM,Orthopedic,Avoid heavy lifting
+neck pain,4,MEDIUM,Orthopedic,Neck stretching exercises
+    
+stomach pain,4,MEDIUM,Gastroenterologist,Medical check recommended
+belly pain,4,MEDIUM,Gastroenterologist,Light food advised
+gas problem,1,LOW,Gastroenterologist,Avoid spicy food
+acidity,1,LOW,Gastroenterologist,Drink cold milk and avoid oily food
+vomiting,4,MEDIUM,Gastroenterologist,Avoid dehydration
+loose motion,4,MEDIUM,Gastroenterologist,ORS and fluids required
+diarrhea,4,MEDIUM,Gastroenterologist,Hydration and medication needed
+
+skin itching,1,LOW,Dermatologist,Apply soothing lotion
+itching,1,LOW,Dermatologist,Keep skin clean and dry
+skin rash,4,MEDIUM,Dermatologist,Consult dermatologist
+red spots on skin,4,MEDIUM,Dermatologist,Medical evaluation advised
+skin infection,4,MEDIUM,Dermatologist,Medication required
+
+ear pain,4,MEDIUM,ENT Specialist,Medical evaluation advised
+ear infection,4,MEDIUM,ENT Specialist,Antibiotics may be needed
+ear blocked,1,LOW,ENT Specialist,Steam inhalation advised
+
+stress,1,LOW,Psychiatrist,Practice relaxation techniques
+anxiety,1,LOW,Psychiatrist,Deep breathing exercises
+panic attack,5,MEDIUM,Psychiatrist,Psychiatric consultation advised
+sleep problem,1,LOW,Psychiatrist,Maintain sleep routine
+can't sleep,4,MEDIUM,Psychiatrist,Avoid screens before sleep
+
+child fever,4,MEDIUM,Pediatrician,Consult pediatrician
+baby fever,5,MEDIUM,Pediatrician,Immediate medical check
+child cough,4,MEDIUM,Pediatrician,Medical evaluation advised
+baby vomiting,5,MEDIUM,Pediatrician,Consult doctor urgently
+
+period pain,4,MEDIUM,Gynecologist,Consult gynecologist
+irregular periods,4,MEDIUM,Gynecologist,Medical evaluation advised
+late periods,4,MEDIUM,Gynecologist,Pregnancy test advised
+pregnancy vomiting,5,MEDIUM,Gynecologist,Medical care recommended
+
+burning urination,4,MEDIUM,Nephrologist,Urine test advised
+urine infection,4,MEDIUM,Nephrologist,Antibiotics required
+frequent urination,4,MEDIUM,Nephrologist,Diabetes screening advised
+
+fainting,9,HIGH,Emergency,Hospital evaluation required
+unconscious,10,HIGH,Emergency,Call emergency services immediately
+seizure,10,HIGH,Emergency,Immediate hospital care needed
+accident injury,9,HIGH,Emergency,Emergency trauma care required
+snake bite,10,HIGH,Emergency,Anti-venom required immediately

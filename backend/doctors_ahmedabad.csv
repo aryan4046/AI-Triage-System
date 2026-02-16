@@ -1,0 +1,55 @@
+doctor_name,specialization,hospital,area,contact,experience_years
+Dr. Amit Shah,General Physician,Shalby Hospital,S G Highway,9876543210,15
+Dr. Rina Patel,General Physician,Apollo Hospital,Gota,9876501234,12
+Dr. Jignesh Mehta,General Physician,Sterling Hospital,Gurukul,9811112233,10
+Dr. Pankaj Joshi,General Physician,CIMS Hospital,Science City,9822223344,18
+Dr. Kiran Trivedi,General Physician,Zydus Hospital,Thaltej,9833334455,14
+
+Dr. Kunal Mehta,Cardiologist,CIMS Hospital,Science City,9898989898,18
+Dr. Rohit Desai,Cardiologist,Apollo Hospital,Gota,9797979797,16
+Dr. Mahesh Patel,Cardiologist,Shalby Hospital,S G Highway,9888877777,20
+Dr. Nilesh Shah,Cardiologist,Zydus Hospital,Thaltej,9877700011,22
+Dr. Harsh Vora,Cardiologist,Sal Hospital,Drive In Road,9866600022,15
+
+Dr. Neha Desai,Neurologist,Zydus Hospital,Thaltej,9823456789,14
+Dr. Rahul Modi,Neurologist,CIMS Hospital,Science City,9812345670,17
+Dr. Anjali Shah,Neurologist,Apollo Hospital,Gota,9801234567,12
+Dr. Mehul Jain,Neurologist,Shalby Hospital,S G Highway,9790123456,19
+
+Dr. Rajiv Joshi,Orthopedic,Sal Hospital,Drive In Road,9812345678,20
+Dr. Ankit Verma,Orthopedic,Apollo Hospital,Gota,9887766554,14
+Dr. Deepak Patel,Orthopedic,CIMS Hospital,Science City,9876655443,18
+Dr. Suresh Rana,Orthopedic,Zydus Hospital,Thaltej,9865544332,22
+
+Dr. Pooja Trivedi,Gynecologist,Sterling Hospital,Gurukul,9797979797,11
+Dr. Komal Shah,Gynecologist,Apollo Hospital,Gota,9811119999,15
+Dr. Ritu Mehta,Gynecologist,Shalby Hospital,S G Highway,9822228888,18
+Dr. Sneha Joshi,Gynecologist,Zydus Hospital,Thaltej,9833337777,13
+
+Dr. Ankit Verma,Pulmonologist,Shalby Hospital,S G Highway,9888877777,10
+Dr. Sagar Patel,Pulmonologist,CIMS Hospital,Science City,9876654321,14
+Dr. Nikhil Shah,Pulmonologist,Apollo Hospital,Gota,9865432109,16
+
+Dr. Harshil Shah,Gastroenterologist,Apollo Hospital,Gota,9765432109,16
+Dr. Darshan Mehta,Gastroenterologist,Shalby Hospital,S G Highway,9754321098,18
+Dr. Amit Jain,Gastroenterologist,CIMS Hospital,Science City,9743210987,20
+
+Dr. Meenal Dave,Dermatologist,Zydus Hospital,Thaltej,9654321098,9
+Dr. Bhavik Patel,Dermatologist,Apollo Hospital,Gota,9643210987,12
+Dr. Rakesh Shah,Dermatologist,Sal Hospital,Drive In Road,9632109876,15
+
+Dr. Suresh Patel,ENT Specialist,CIMS Hospital,Science City,9543210987,17
+Dr. Ketan Mehta,ENT Specialist,Apollo Hospital,Gota,9532109876,14
+Dr. Hiren Joshi,ENT Specialist,Zydus Hospital,Thaltej,9521098765,19
+
+Dr. Ashish Verma,Pediatrician,Shalby Hospital,S G Highway,9510987654,16
+Dr. Nisha Patel,Pediatrician,Apollo Hospital,Gota,9509876543,13
+Dr. Rupal Shah,Pediatrician,CIMS Hospital,Science City,9498765432,18
+
+Dr. Pratik Shah,Psychiatrist,Zydus Hospital,Thaltej,9487654321,14
+Dr. Aman Gupta,Psychiatrist,Apollo Hospital,Gota,9476543210,11
+Dr. Rahul Mehta,Psychiatrist,CIMS Hospital,Science City,9465432109,19
+
+Dr. Jayesh Patel,Nephrologist,Shalby Hospital,S G Highway,9454321098,21
+Dr. Vinod Shah,Nephrologist,Zydus Hospital,Thaltej,9443210987,17
+Dr. Arvind Mehta,Nephrologist,Apollo Hospital,Gota,9432109876,23

@@ -334,7 +334,11 @@ function MainApp() {
                   </h2>
                   <div className="h-64">
                     <ECGVisualization
-                      isActive={!!selectedPatient && !!selectedPatient.symptoms}
+                      isActive={!!selectedPatient &&
+                        (Array.isArray(selectedPatient.symptoms)
+                          ? selectedPatient.symptoms.length > 0
+                          : !!selectedPatient.symptoms)
+                      }
                       severity={selectedPatient?.severity}
                     />
                   </div>

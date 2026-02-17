@@ -1,0 +1,411 @@
+/* ===== Auth Page (Login / Signup) ===== */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #eaf6ff, #f6fbff);
+}
+
+/* ================= LEFT INFO PANEL ================= */
+
+.auth-left {
+  flex: 1;
+  padding: 70px 60px;
+  background: linear-gradient(135deg, #0f4c5c, #0b7285);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-left h1 {
+  font-size: 38px;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+
+.auth-left p {
+  font-size: 16px;
+  opacity: 0.92;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.auth-left ul {
+  list-style: none;
+  padding: 0;
+}
+
+.auth-left li {
+  margin-bottom: 12px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth-left li::before {
+  content: "✔";
+  color: #7dff9c;
+  font-weight: bold;
+}
+
+/* ================= RIGHT CARD ================= */
+
+.auth-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card */
+.auth-card {
+  width: 380px;
+  background: white;
+  padding: 40px 40px;   /* ✅ MORE LEFT & RIGHT SPACE */
+  border-radius: 16px;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.10);
+}
+
+
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: 8px;
+  color: #0b7285;
+  font-size: 26px;
+}
+
+.auth-card .subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 22px;
+}
+
+/* ================= INPUTS ================= */
+
+.auth-card input {
+  width: 100%;
+  padding: 13px 14px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  border: 1px solid #d0d7de;
+  font-size: 14px;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.auth-card input::placeholder {
+  color: #9aa0a6;
+}
+
+.auth-card input:focus {
+  outline: none;
+  border-color: #0b7285;
+  box-shadow: 0 0 0 3px rgba(11, 114, 133, 0.15);
+}
+
+.auth-card input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+
+/* ================= BUTTON ================= */
+
+.auth-card button {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #0b7285, #0d6efd);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+}
+
+.auth-card button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(13, 110, 253, 0.3);
+}
+
+.auth-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ================= TOGGLE LOGIN / SIGNUP ================= */
+
+.auth-toggle {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 14px;
+  color: #555;
+}
+
+.auth-toggle span {
+  color: #0b7285;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.auth-toggle span:hover {
+  text-decoration: underline;
+}
+
+/* ================= ERROR MESSAGE ================= */
+
+.auth-error {
+  background: #ffe5e5;
+  color: #b00020;
+  font-size: 13px;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 900px) {
+  .auth-page {
+    flex-direction: column;
+  }
+
+  .auth-left {
+    padding: 40px;
+    text-align: center;
+  }
+
+  .auth-card {
+    width: 90%;
+    margin-bottom: 30px;
+  }
+}
+
+/* ===============================
+   AUTH FORM ANIMATIONS
+================================ */
+
+.auth-card.animated {
+  animation: fadeSlideIn 0.6s ease;
+}
+
+.auth-card.login {
+  transform-origin: left;
+}
+
+.auth-card.signup {
+  transform-origin: right;
+}
+
+/* Fade + slide */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Input focus animation */
+.auth-card input {
+  transition: all 0.25s ease;
+}
+
+.auth-card input:focus {
+  transform: scale(1.02);
+  box-shadow: 0 0 0 3px rgba(11, 114, 133, 0.15);
+}
+
+/* Button hover animation */
+.auth-card button {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Toggle link animation */
+.auth-toggle span {
+  transition: color 0.2s ease;
+}
+
+.auth-toggle span:hover {
+  color: #0f4c5c;
+}
+
+/* ===== CENTER CARD WITH EQUAL SIDE SPACE ===== */
+.auth-right {
+  padding: 0 40px; /* equal left & right spacing */
+  box-sizing: border-box;
+}
+
+/* Optional: better balance on large screens */
+@media (min-width: 1200px) {
+  .auth-right {
+    padding: 0 80px;
+  }
+}
+
+/* ===== FLOATING LABEL ===== */
+.floating-group {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.floating-group input {
+  width: 100%;
+  padding: 14px 14px;
+  border-radius: 10px;
+  border: 1px solid #d0d7de;
+  font-size: 14px;
+  background: transparent;
+}
+
+.floating-group label {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  color: #9aa0a6;
+  font-size: 14px;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: all 0.25s ease;
+  background: white;
+  padding: 0 6px;
+}
+
+.floating-group input:focus + label,
+.floating-group input:not(:placeholder-shown) + label {
+  top: -7px;
+  font-size: 12px;
+  color: #0b7285;
+}
+
+
+/* ===== FIELD ERROR ===== */
+.field-error {
+  font-size: 12px;
+  color: #dc3545;
+  margin-top: -8px;
+  margin-bottom: 10px;
+}
+
+/* ===== INLINE PASSWORD STRENGTH ===== */
+.pwd-strength-inline {
+  display: flex;
+  gap: 6px;
+  margin-top: -6px;
+  margin-bottom: 8px;
+}
+
+.pwd-strength-inline span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e0e0e0;
+}
+
+.pwd-strength-inline span.on.weak {
+  background: #dc3545;
+}
+
+.pwd-strength-inline span.on.medium {
+  background: #fd7e14;
+}
+
+.pwd-strength-inline span.on.strong {
+  background: #198754;
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  height: 48px;
+  line-height: 48px;
+  padding: 0 44px 0 14px;
+}
+
+.password-eye {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  cursor: pointer;
+  user-select: none;
+  opacity: 1;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.password-eye:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* ===== MODERN PASSWORD STRENGTH BAR ===== */
+
+.password-meter {
+  height: 4px;
+  width: 100%;
+  background: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.password-meter-fill {
+  height: 100%;
+  width: 0%;
+  transition: width 0.35s ease, background-color 0.35s ease;
+  border-radius: 4px;
+}
+
+.password-meter-fill.weak {
+  width: 33%;
+  background: #dc3545;
+}
+
+.password-meter-fill.medium {
+  width: 66%;
+  background: #fd7e14;
+}
+
+.password-meter-fill.strong {
+  width: 100%;
+  background: #198754;
+}
+

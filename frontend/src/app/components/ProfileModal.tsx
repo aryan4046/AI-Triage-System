@@ -1,4 +1,4 @@
-import { User, LogOut, Mail, Phone } from 'lucide-react';
+import { LogOut, Mail, Phone } from 'lucide-react';
 import { Modal } from './Modal';
 import { useAuth } from '../../context/AuthContext';
 
@@ -39,11 +39,11 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                     <div className="grid grid-cols-2 gap-4 pt-2 border-t border-white/10 mt-2">
                         <div className="bg-white/5 p-2 rounded-lg text-center">
                             <span className="block text-xs text-white/40 uppercase">Age</span>
-                            <span className="text-white font-medium">--</span>
+                            <span className="text-white font-medium">{user?.age || 'N/A'}</span>
                         </div>
                         <div className="bg-white/5 p-2 rounded-lg text-center">
                             <span className="block text-xs text-white/40 uppercase">Gender</span>
-                            <span className="text-white font-medium">--</span>
+                            <span className="text-white font-medium">{user?.gender || 'N/A'}</span>
                         </div>
                     </div>
                 </div>

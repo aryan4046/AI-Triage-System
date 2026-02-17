@@ -26,8 +26,9 @@ const severityColors = {
   low: { bg: 'rgba(0, 255, 200, 0.2)', border: '#00ffc8', text: '#00ffc8' },
 };
 
+
 export function PatientCard({ patient, onClick }: PatientCardProps) {
-  const colors = severityColors[patient.severity];
+  const colors = severityColors[patient.severity] || severityColors.medium;
 
   return (
     <motion.div

@@ -25,6 +25,7 @@ training_data = pd.read_csv(
 )
 training_data["text"] = training_data["text"].str.lower().str.strip()
 training_data["doctor"] = training_data["doctor"].str.lower().str.strip()
+training_data["risk"] = training_data["risk"].str.strip()
 
 # ================= DOCTORS DATA =================
 doctors_data = pd.read_csv(
@@ -82,7 +83,7 @@ def get_doctors_by_specialization(doctor_text):
     return doctors
 
 # ================= MYSQL =================
-app.config["MYSQL_HOST"] = "127.0.0.1"
+app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
 app.config["MYSQL_DB"] = "ai_health"
@@ -104,6 +105,8 @@ def signup():
     contact = data.get("contact")
     email = data.get("email")
     password = data.get("password")
+    age = data.get("age")
+    gender = data.get("gender")
 
     if not all([name, contact, email, password]):
         return jsonify({"message": "All fields required"}), 400
@@ -116,8 +119,8 @@ def signup():
 
     password_hash = generate_password_hash(password)
     cursor.execute(
-        "INSERT INTO users (name, contact, email, password_hash) VALUES (%s,%s,%s,%s)",
-        (name, contact, email, password_hash)
+        "INSERT INTO users (name, contact, email, password_hash, age, gender) VALUES (%s,%s,%s,%s,%s,%s)",
+        (name, contact, email, password_hash, age, gender)
     )
     mysql.connection.commit()
     cursor.close()
@@ -148,6 +151,8 @@ def login():
         "name": user["name"],
         "email": user["email"],
         "contact": user["contact"],
+        "age": user.get("age"),
+        "gender": user.get("gender"),
         "user_id": user["id"]
     })
 
@@ -192,8 +197,21 @@ def triage():
     if not text:
         return Response(stream_with_context(generate_error("Please enter symptoms.")), content_type='application/x-ndjson')
 
-    # 🔍 EXACT MATCH ONLY
+    # 🔍 EXACT MATCH -> PARTIAL MATCH
+    # First try exact match
     matches = training_data[training_data["text"] == text]
+    
+    # If no exact match, try to find if the user text *contains* any of the training symptoms
+    if matches.empty:
+        # Sort by length descending to match longest phrases first (e.g. "high fever" before "fever")
+        sorted_symptoms = training_data["text"].sort_values(key=lambda x: x.str.len(), ascending=False)
+        for symptom in sorted_symptoms:
+            if symptom in text:
+                matches = training_data[training_data["text"] == symptom]
+                break
+    
+    # If still no match, try the reverse: if the training symptom is contained in the user text
+    # (Already covered above, but let's double check simple keywords if needed)
 
     if matches.empty:
          return Response(stream_with_context(generate_error("I could not find this symptom in my database.")), content_type='application/x-ndjson')
@@ -202,25 +220,29 @@ def triage():
     recommended_doctors = get_doctors_by_specialization(row["doctor"])
 
     # ================= SAVE HISTORY =================
+    # ================= SAVE HISTORY =================
     if user_id:
-        cursor = mysql.connection.cursor()
-        cursor.execute(
-            """
-            INSERT INTO history
-            (user_id, symptoms, severity, risk, doctor, advice)
-            VALUES (%s,%s,%s,%s,%s,%s)
-            """,
-            (
-                user_id,
-                row["text"],
-                row["severity_score"],
-                row["risk"],
-                row["doctor"],
-                row["advice"]
+        try:
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                """
+                INSERT INTO history
+                (user_id, symptoms, severity, risk, doctor, advice)
+                VALUES (%s,%s,%s,%s,%s,%s)
+                """,
+                (
+                    user_id,
+                    row["text"],
+                    row["severity_score"],
+                    row["risk"],
+                    row["doctor"],
+                    row["advice"]
+                )
             )
-        )
-        mysql.connection.commit()
-        cursor.close()
+            mysql.connection.commit()
+            cursor.close()
+        except Exception as e:
+            print(f"ERROR: Failed to save history: {e}")
 
     return Response(stream_with_context(generate_medical(row, recommended_doctors)), content_type='application/x-ndjson')
 
@@ -241,10 +263,7 @@ def history(user_id):
     cursor.close()
     return jsonify(data)
 
-# ================= RECOMMEND =================
-    return jsonify(data)
 
-# ================= RECOMMEND =================
 @app.route("/recommend", methods=["POST"])
 def recommend_doctors():
     data = request.get_json(silent=True) or {}
@@ -339,6 +358,8 @@ def get_queue():
             h.id, 
             u.name, 
             u.contact, 
+            u.age,
+            u.gender,
             h.symptoms, 
             h.severity, 
             h.risk, 
@@ -362,11 +383,10 @@ def get_queue():
         queue_data.append({
             "id": str(row["id"]),
             "name": row["name"],
-            # Calculate mock age/gender or store in DB? 
-            # For now, we don't have age/gender in users table based on signup, so we might mock or leave empty
-            "age": 30, # Mock default
-            "gender": "Unknown", # Mock default
-            "severity": row["risk"].lower() if row["risk"] else "medium",
+            # Use real age/gender if available, otherwise fallback to defaults
+            "age": row.get("age") or 30, 
+            "gender": row.get("gender") or "Unknown", 
+            "severity": row["risk"].lower().strip() if row["risk"] else "medium",
             "symptoms": symptoms_list,
             "vitals": { # Mock vitals for now as we don't track them yet
                 "heartRate": 80,

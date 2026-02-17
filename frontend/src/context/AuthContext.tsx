@@ -5,6 +5,8 @@ interface User {
     name: string;
     email: string;
     contact: string;
+    age?: number;
+    gender?: string;
 }
 
 interface AuthContextType {
@@ -20,8 +22,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        // Check local storage for persisted user
-        const savedUser = localStorage.getItem('user');
+        // Check session storage for persisted user
+        const savedUser = sessionStorage.getItem('user');
         if (savedUser) {
             setUser(JSON.parse(savedUser));
         }
@@ -29,12 +31,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const login = (userData: User) => {
         setUser(userData);
-        localStorage.setItem('user', JSON.stringify(userData));
+        sessionStorage.setItem('user', JSON.stringify(userData));
     };
 
     const logout = () => {
         setUser(null);
-        localStorage.removeItem('user');
+        sessionStorage.removeItem('user');
     };
 
     return (

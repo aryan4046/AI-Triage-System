@@ -66,7 +66,7 @@ export function ECGVisualization({ isActive = true, severity = 'low' }: ECGProps
       ctx.stroke();
 
       // Waveform
-      const showShadow = isActive;
+
 
       // Reverted to original Teal (#00ffc8) and Red (#ff0064)
       const neonColor = severity === 'critical' ? '#ff0064' : '#00ffc8';
